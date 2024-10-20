@@ -1,11 +1,11 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import { NextAuthOptions } from "next-auth";
 import bcrypt from "bcryptjs"
-import User from "@/model/User";
+import UserModel from "@/model/User";
 import dbConnect from "@/lib/dbConnect";
 import { error } from "console";
 
-
+//function to authenticate user and inject some details in jwt and session
 export const authOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
@@ -18,7 +18,7 @@ export const authOptions: NextAuthOptions = {
             async authorize(credentials: any): Promise<any> {
                 await dbConnect()
                 try {
-                    const user = await User.findOne({
+                    const user = await UserModel.findOne({
                         $or: [
                             { email: credentials.identifier.email },
                             { username: credentials.identifier.username } //we havenot add this functionality but for the future we added

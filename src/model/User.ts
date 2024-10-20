@@ -67,6 +67,6 @@ const userSchema: Schema<User> = new Schema({
 
 })
 
-const User = (mongoose.models.User as mongoose.Model<User>) || mongoose.model<User>("User", userSchema)    // this means if User is already created give that user or create one
+const UserModel = (mongoose.models.User as mongoose.Model<User>) || mongoose.model<User>("User", userSchema)    // this means if User is already created give that user or create one
 
-export default User
+export default UserModel
