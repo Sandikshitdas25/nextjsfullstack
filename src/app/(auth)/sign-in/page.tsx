@@ -34,6 +34,7 @@ const page = () => {
         }
     })
 
+    
 
     const onSubmit = async (data: z.infer<typeof signInSchema>) => { //infering the data with the help of zod, which means it should only follow the signinschema
         const result = await signIn("credentials",{ //we are using nextauth for signin
@@ -42,13 +43,29 @@ const page = () => {
           password: data.password
         })
         console.log(result)
-        if(result?.error){ 
-          toast({
-            title: "Login failed",
-            description: "Incorrect username or password",
-            variant: "destructive"
-          })
-        }
+        // if(result?.error){ 
+        //   toast({
+        //     title: "Login failed",
+        //     description: "Incorrect username or password",
+        //     variant: "destructive"
+        //   })
+        // }
+
+        if (result?.error) {
+            if (result.error === 'CredentialsSignin') {
+              toast({
+                title: 'Login Failed',
+                description: 'Incorrect username or password',
+                variant: 'destructive',
+              });
+            } else {
+              toast({
+                title: 'Error',
+                description: result.error,
+                variant: 'destructive',
+              });
+            }
+          }
 
         if(result?.url){ //after successfull login nextauth will send a url
           router.replace('/dashboard')
